@@ -7,14 +7,19 @@ const listingSchema = new Schema({
         required : true,
     },
     description  :  String, 
-    imgage : {
-        type  :  String,
-        default  : "https://unsplash.com/photos/white-concrete-house-surrounded-by-palm-trees-tKyVdwo_2nI",
-        
-        Set : (v) => {
-            v === "" ? "https://unsplash.com/photos/white-concrete-house-surrounded-by-palm-trees-tKyVdwo_2nI" : v;
+    image: {
+        filename: {
+            type : String,
+            default : "ListingFile",
+        },
+        url: {
+          type: String,
+          default: "https://unsplash.com/default-image.jpg",
+          set: function (v) {
+            return v === "" ? "https://unsplash.com/default-image.jpg" : v;
+          }
         }
-    },
+      },
     price : Number, 
     location: String,
     country : String,

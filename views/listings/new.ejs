@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirMojo</title>
+</head>
+<body>
+    <h3>Create a new List : </h3>
+    <form action="/listings" method="post">
+        <input type="text" name="listing[title]" placeholder="Enter title">
+        <br>
+        <textarea  name="listing[description]" placeholder="Enter description" rows="4" cols="10"></textarea>
+        <br>
+        <input type="text" name="listing[image][url]" placeholder="Enter image URL">
+        <br>
+        <input type="text" name="listing[image][filename]" placeholder="Enter image filename">
+        <br>
+        <input type="number" name="listing[price]" placeholder="Enter price">
+        <br>
+        <input type="text" name="listing[country]" placeholder="Enter country name">
+        <br>
+        <input type="text" name="listing[location]" placeholder="Enter Location">
+        <button>Add</button>
+        <br>
+    </form>
+</body>
+</html>
