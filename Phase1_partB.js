@@ -19,3 +19,16 @@
         </div>
 
 */
+
+//! NavBar 
+/*
+    Covered Bootstrap
+
+    take a navbar from bootstrap after including its connection link
+    for modularity pupose we make a one more folder to assist boilerplate, jaha pr hum boiler plate ko assist krne wali choti choti codes likhenge. 
+
+
+    see the style , look for some drawback and improve it , 
+        other approach is to go line by line. 
+
+*/

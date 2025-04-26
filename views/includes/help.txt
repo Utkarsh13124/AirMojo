@@ -1,0 +1,19 @@
+layouts me to humne boilerplates add  kiye hi
+includes hum aur choti  choti cheeze  rakhenge,  jaise  navbar
+
+like boilerplates ke chote chote hisse hue.
+
+
+Advantages of Moularity :- 
+    suppose kl ko humhe header me kuch improvementkrne hi,to humhe saari  problems khagalne ki jaroorat nhi hi.
+
+
+
+
+
+
+
+
+
+
+    

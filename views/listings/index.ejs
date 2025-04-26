@@ -8,11 +8,12 @@
     <title>AirMojo</title>
 </head> -->
 <body>
-    <form action="/listings/new" method="get">
+    <!-- <form action="/listings/new" method="get">
         <button>Create New Listing</button>
-    </form>
+    </form> -->
     <ul>
         <%for(let listing of allListings){  %>
+            <li><a href="listings/<%= listing._id %>"><%= listing.title %>  </a></li>  
             <li><a href="listings/<%= listing._id %>"><%= listing.title %>  </a></li>  
         <% } %>
     </ul>
