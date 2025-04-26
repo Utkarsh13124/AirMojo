@@ -26,7 +26,21 @@
     text-decoration: underline;
 }
 
+.f-info-links , .f-info-socials , .f-info-brand{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+
+.f-info-socials i{
+    font-size: 1.2rem;
+    margin-right: 2rem;
+}
+
 .f-info{
+    text-align: center;
     height: 8rem ;
     /* font-size: 20px; */
     background-color: #ebebeb;
@@ -34,4 +48,25 @@
     justify-content: center;
     align-items: space-evenly;
     flex-wrap: wrap;
+}
+
+/* Cards */
+.card{
+    border: none !important; /* agar important nhi bhi likhenge tab bhi chl jayega , kyuki humne style.css ko bootstarap ke baadd include kiya hi*/
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+/* google fonts - 7:34 , card text p ki jagah card text rhega. */
+.card-text { 
+    font-weight: 400;
 }

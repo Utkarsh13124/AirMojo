@@ -32,3 +32,13 @@
         other approach is to go line by line. 
 
 */
+
+//! styling of index file
+/*
+    as header & footer to common the ,to humne unhe boiler plate me dirrect add kr diya , abhi ye index page to hr jagah common nhi hi , to ise kaise deal kiya jaaye
+        hum direct index.ejs me hi ise banayege
+
+
+    styling Cards:- 
+        class row se wo sab grid me ho gye.
+*/
