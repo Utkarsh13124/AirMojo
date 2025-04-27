@@ -42,3 +42,11 @@
     styling Cards:- 
         class row se wo sab grid me ho gye.
 */
+
+
+//! anchor tag & a
+/*
+    card ke upar agar ek anchor tag laga denge, to hum poore card se hi travrse kr paayenge to show route.
+
+    hum jaha bhi kayi saare kard ho to hum usene hiver ya Overlay effect add kr denge. 
+*/ 

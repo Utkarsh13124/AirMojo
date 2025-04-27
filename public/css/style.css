@@ -1,6 +1,6 @@
-/* body{
-    background-color: pink;
-} */
+body{
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
 
 /* Navbar */
 .navbar{
@@ -69,4 +69,23 @@
 /* google fonts - 7:34 , card text p ki jagah card text rhega. */
 .card-text { 
     font-weight: 400;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+/* Card-Effect / Overlay-Effect 
+    iss efect ki help se hum kisi chheez ko , like kisi text ko kisi image ke upar show krna ho.
+    
+    BS -> .card-img-overlay 
+
+    hum iski help se hum clickable effect lana chah rhe hi.
+*/
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
 }
