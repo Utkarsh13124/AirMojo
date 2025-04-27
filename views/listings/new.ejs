@@ -9,21 +9,36 @@
 <body>
     <h3>Create a new List : </h3>
     <form action="/listings" method="post">
-        <input type="text" name="listing[title]" placeholder="Enter title">
-        <br>
-        <textarea  name="listing[description]" placeholder="Enter description" rows="4" cols="10"></textarea>
-        <br>
-        <input type="text" name="listing[image][url]" placeholder="Enter image URL">
-        <br>
-        <input type="text" name="listing[image][filename]" placeholder="Enter image filename">
-        <br>
-        <input type="number" name="listing[price]" placeholder="Enter price">
-        <br>
-        <input type="text" name="listing[country]" placeholder="Enter country name">
-        <br>
-        <input type="text" name="listing[location]" placeholder="Enter Location">
-        <button>Add</button>
-        <br>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" name="listing[title]" >
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea  name="listing[description]"  class="form-control" rows="4" cols="10"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image Link</label>
+            <input type="text" name="listing[image][url]" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="filename" class="form-label">Image Filename</label>
+            <input type="text" name="listing[image][filename]"  class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" name="listing[price]" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" name="listing[country]" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="listing[location]" class="form-control">
+        </div>
+        <br><br>
+        <button class="btn btn-dark">Add</button>
     </form>
 </body>
 <!-- </html> -->

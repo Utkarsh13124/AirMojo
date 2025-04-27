@@ -50,3 +50,15 @@
 
     hum jaha bhi kayi saare kard ho to hum usene hiver ya Overlay effect add kr denge. 
 */ 
+
+
+//! Html form 
+/*
+    Attribute | Purpose
+    for in <label> ===>  Links the label to a specific input by id
+    id in <input> ===>  Required to match with for
+    name in <input> ===> Defines the key used when sending form data
+
+*/
+
+// Continue from editing new page.
