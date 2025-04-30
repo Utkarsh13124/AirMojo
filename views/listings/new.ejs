@@ -6,39 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AirMojo</title>
 </head> -->
-<body>
-    <h3>Create a new List : </h3>
-    <form action="/listings" method="post">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="listing[title]" >
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea  name="listing[description]"  class="form-control" rows="4" cols="10"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Image Link</label>
-            <input type="text" name="listing[image][url]" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="filename" class="form-label">Image Filename</label>
-            <input type="text" name="listing[image][filename]"  class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" name="listing[price]" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[country]" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" name="listing[location]" class="form-control">
-        </div>
-        <br><br>
-        <button class="btn btn-dark">Add</button>
-    </form>
-</body>
+<!-- <body> -->
+    <div class="row mt-3">  
+        <div class="col-8 offset-2">  
+            <br><br> 
+          <h3>Create a new List :</h3>  
+          <form action="/listings" method="post">  
+            <div class="mb-3">  
+              <label for="title" class="form-label">Title</label>  
+              <input placeholder="Add a catchy title" type="text" class="form-control" name="listing[title]">  
+            </div>  
+            
+            <div class="mb-3">  
+              <label for="description" class="form-label">Description</label>  
+              <textarea name="listing[description]" class="form-control" rows="4" cols="10"></textarea>  
+            </div>  
+            
+            <div class="mb-3">  
+              <label for="image" class="form-label">Image Link</label>  
+              <input type="text" name="listing[image][url]" class="form-control" placeholder="enter image URL/Link">  
+            </div>  
+            
+            <div class="mb-3">  
+              <label for="filename" class="form-label">Image Filename</label>  
+              <input type="text" name="listing[image][filename]" class="form-control">  
+            </div>  
+            
+            <div class="row">
+                <div class="mb-3 col-md-4">  
+                    <label for="price" class="form-label">Price</label>  
+                    <input type="number" name="listing[price]" class="form-control" placeholder="1200">  
+                  </div>  
+                  
+                  <div class="mb-3 col-md-8" >  <!--This means md ke baad 4 : 8 ka ratio rhe.-->
+                    <label for="country" class="form-label">Country</label>  
+                    <input type="text" name="listing[country]" class="form-control" placeholder="India">  
+                  </div> 
+            </div> 
+            
+            <div class="mb-3">  
+              <label for="location" class="form-label">Location</label>  
+              <input type="text" name="listing[location]" class="form-control" placeholder="Kanpur , Uttar-Pradesh">  
+            </div>  
+            
+              
+            
+            <button class="btn btn-dark add-btn mt-3" type="submit">Add</button>  
+            
+          </form>  
+        </div>  
+      </div>  
+<!-- </body> -->
 <!-- </html> -->

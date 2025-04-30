@@ -6,27 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AirMojo</title>
 </head> -->
-<body>
-    <h3>Edit your List : </h3>
-    <form action="/listings/<%=listing._id%>?_method=PUT" method="post">
-        <!-- Earlier for taking input we are using placeholder to show to enter something, but here we need to show the already present input , so we use value attribut
-        The value attribute sets the default content of an <input> field
-        Useful in Edit Forms to show existing data. -->
-        <input type="text" name="listing[title]" value="<%= listing.title %>">
-        <br>
-        <textarea  name="listing[description]"   rows="4" cols="30"><%= listing.description %> </textarea>
-        <br>
-        <input type="text" name="listing[image][url]" value="<%= listing.image.url %>" >
-        <br>
-        <input type="text" name="listing[image][filename]"value="<%= listing.image.filename %>" >
-        <br>
-        <input type="number" name="listing[price]" value="<%= listing.price %>" >
-        <br>
-        <input type="text" name="listing[country]" value="<%= listing.country %>" >
-        <br>
-        <input type="text" name="listing[location]" value="<%= listing.location %>" >
-        <button>Edit</button>
-        <br>
-    </form>
-</body>
+<!-- <body> -->
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+            <h3>Edit your List : </h3>
+            <form action="/listings/<%=listing._id%>?_method=PUT" method="post">
+                <!-- Earlier for taking input we are using placeholder to show to enter something, but here we need to show the already present input , so we use value attribut
+                The value attribute sets the default content of an <input> field
+                Useful in Edit Forms to show existing data. -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea  name="listing[description]"   rows="4" cols="30" class="form-control"><%= listing.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image Link</label>
+                    <input type="text" name="listing[image][url]" value="<%= listing.image.url %>" class="form-control" >
+                </div>
+                <div class="mb-3">
+                    <label for="filename" class="form-label">Image Filename</label>
+                    <input type="text" name="listing[image][filename]" value="<%= listing.image.filename %>" class="form-control">
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" name="listing[price]" value="<%= listing.price %>" class="form-control">
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="listing[country]" value="<%= listing.country %>" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label"></label>
+                    <input type="text" name="listing[location]" value="<%= listing.location %>" class="form-control">
+                </div>
+                <button class="btn btn-dark edit-btn mt-3">Edit</button>
+                <br>
+            </form>
+        </div>
+    </div>
+<!-- </body> -->
 <!-- </html> -->
