@@ -29,3 +29,13 @@
         like many time when we fill password, it shows strong password , weak password.
 
 */
+
+
+//! Custom Error Handling
+/*
+    abhi tk jo humne create kiya hi , usme bhut si async error hi. 
+      bhut  saari async erros aa sakti hi , suppose koi frontened , price me koi string value bhej de , use hum Database me save krenge jo ki ek async error de sakta hi.
+
+
+?  Need to check working of wrapAsync by modifyning price.
+*/
