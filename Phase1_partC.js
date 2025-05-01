@@ -60,5 +60,24 @@
     Abhi form se post request bhejte hi , to wha pr to humne required set kiya hua hi , to wo to think hi ,
     leking what if agar hopscotch se object bnake bheje , jisme required wali cheeze filled na ho , to DB to null value save krwa dega agar waha pr humne restrictions nhi lagaye honge.
 
+    solution 1 hum if condition ka use kre hr ek properties ke liy
+        listings.price , listings.description
 
-*/
+    solving scema validation problem , whensend by post request through hoopscotch , where our form required is overpassed/ 
+                * better soluttion is to use joi tool, jo hum if lega ke kr rhe hi , use joi bhut easily kr deta hi 
+            joi is npm package
+
+    joi ki help se hum ek aur schema design krenge , jo server side validation ke liye hoga. 
+
+
+    */
+
+    // ? hopscotch se post request ja nhi hi , validation for schema watche dtill 11 min
+        // hopscotch is working 
+        // schema.js ko apne schema ke hisab se design krna hi , specially image.
+            // done 
+            
+//? not saving the good data.
+    // data is saving normally , not saving when passed through validation function 
+    // console.log(result) ko acche se samajhna padega , line shi hi tab bhi error dikha rhaa hi , save krne ki bajay
+//! Validation for Schema   

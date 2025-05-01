@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate'); 
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { listingSchema } = require('./schema.js');
 
 const path = require("path");
 app.set("view engine" , "ejs");
@@ -32,6 +33,18 @@ app.get("/" , (req , res) => {
     console.log("hi ,  I am root.");
     res.send("Home page");
 })
+
+const validateListing = (req , res , next) => {
+    let result = listingSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
+    console.log(result);
+    if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
+        console.log("Data is not saving.");
+        throw new ExpressError(400 , result.error);
+    }else{
+        next();
+    }
+};
+
 
 // app.get("/testing"  , async (req ,  res)  => {
 //     let sampleListing  = new Listing({
@@ -69,7 +82,7 @@ app.get("/listings" , wrapAsync(async (req , res) => {
         res.render("listings/new.ejs");
     } );
 
-    app.post("/listings" , wrapAsync( async (req , res , next) => {
+    app.post("/listings" ,validateListing, wrapAsync( async (req , res , next) => {
         // try{
         //     // Method 1 
         //         // let {title , description , image , price , country , location } = req.body;
@@ -88,12 +101,24 @@ app.get("/listings" , wrapAsync(async (req , res) => {
             
 
             let listingObj = req.body.listing;
-            if(!listingObj){
-                throw new ExpressError(400 , "Send Valid Data for Listing!");
-            }
-            const newListing = new Listing(listingObj);
-            await newListing.save();
-            res.redirect("/listings");
+            // if(!listingObj){ // done by Joi
+            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+            // }
+           // solving scema validation problem , whensend by post request through hoopscotch , where our form required is overpassed/ 
+                // * better soluttion is to use joi tool, jo hum if lega ke kr rhe hi , use joi bhut easily kr deta hi 
+            // if(!listingObj.description){ // similar for other.
+            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+            // }
+        // ? Soltuion of validation using Joi
+                // validate listing is passed as middleware 
+            // try{
+                const newListing = new Listing(listingObj);
+                console.log("New : " , newListing);
+                await newListing.save();
+                res.redirect("/listings");
+            // }catch(err){
+            //     console.log("Error is coming form not saving data.");
+            // }
 
     })
 );
@@ -159,6 +184,7 @@ app.use((req, res, next) => {
 
 // error handling middleware
 app.use((err, req, res, next) => {
+    console.log("After wrap asyn.");
     const { statusCode = 500, message = "Something went wrong!" } = err;
     // res.status(statusCode).send(message);
     res.status(statusCode).render("error.ejs" , {err});
