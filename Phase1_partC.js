@@ -38,4 +38,27 @@
 
 
 ?  Need to check working of wrapAsync by modifyning price.
+    checked.
+
+    added wrapAsync to async function
+*/
+
+//! error.ejs --> creating a default rendering page.
+/*
+    create a ejs file in views folder, 
+        aplly bootstrap for alert.
+
+ * res.status(statusCode).render("error.ejs" , {err});
+    what is use of . her ? method chaning is done here.
+    status() is returning same res object so we are applying another operation into it. 
+
+*/
+
+
+//! Scema Validation 
+/*
+    Abhi form se post request bhejte hi , to wha pr to humne required set kiya hua hi , to wo to think hi ,
+    leking what if agar hopscotch se object bnake bheje , jisme required wali cheeze filled na ho , to DB to null value save krwa dega agar waha pr humne restrictions nhi lagaye honge.
+
+
 */

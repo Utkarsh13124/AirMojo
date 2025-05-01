@@ -53,10 +53,10 @@ app.get("/" , (req , res) => {
 
 */
 // index route
-app.get("/listings" , async (req , res) => {
+app.get("/listings" , wrapAsync(async (req , res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs" , {allListings});
-});
+}));
 
 
 //! Create : New & Vreate Route 
@@ -86,7 +86,11 @@ app.get("/listings" , async (req , res) => {
                 // let {title , description , image , price , country , location } = req.body;
             // Method 2 --> form me object bna lena
             
+
             let listingObj = req.body.listing;
+            if(!listingObj){
+                throw new ExpressError(400 , "Send Valid Data for Listing!");
+            }
             const newListing = new Listing(listingObj);
             await newListing.save();
             res.redirect("/listings");
@@ -95,13 +99,13 @@ app.get("/listings" , async (req , res) => {
 );
 
 //! show  route
-    app.get("/listings/:id" , async (req ,res) =>{
+    app.get("/listings/:id" , wrapAsync(async (req ,res) =>{
         let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
         // console.log("Id is" , id);
         const listing = await Listing.findById(id);
         // console.log(listing);
         res.render("listings/show.ejs" , {listing});
-    });
+    }));
 
 
 //! Update Route 
@@ -109,39 +113,58 @@ app.get("/listings" , async (req , res) => {
  * Get /listings/:id/edit -> edit form -> submit
  * put /listings/:id
  */
-    app.get("/listings/:id/edit" , async (req , res) => {
+    app.get("/listings/:id/edit" , wrapAsync(async (req , res) => {
         let {id} = req.params;
         const listing = await Listing.findById(id);
         // console.log(listing);
         res.render("listings/edit.ejs" , {listing});
-    })
+    }));
 
 // Update route
-    app.put("/listings/:id" , async ( req , res ) => {
+    app.put("/listings/:id" , wrapAsync(async ( req , res ) => {
         let { id } = req.params;
+        if(!req.body.listing){
+            throw new ExpressError(400 , "Send Valid Data for Listing!");
+        }
         await Listing.findByIdAndUpdate(id , {...req.body.listing}); 
         // we are passing each attribute as user ne koi bhi change kiya ho sakta hi. 
         // ref to phase1 notes about destructing
         console.log("put" , req.body.listing);
         res.redirect(`/listings/${id}`); // redirecting too show route
-    })
+    }));
 
 
 //! Delete Route
 /*
     delete /listings/:id
 */
-    app.delete("/listings/:id" , async (req , res) => {
+    app.delete("/listings/:id" ,wrapAsync( async (req , res) => {
         let {id} = req.params;
         let deletedListing = await Listing.findByIdAndDelete(id);
         console.log(deletedListing);
         res.redirect("/listings");
-    })
+    }));
 
-// Error Handling Middleware.
-app.use((err , req , res , next) =>{
-    res.send("Something went wrong."); 
-})
+
+// ! sending page not found response for all other routes that are not defined above.
+    // * means sabse match ho jayega. --> ise wild card matching kehte hi. 
+// app.all("*", (req, res, next) => {
+//     next(new ExpressError(404, "Page Not Found"));
+// });
+
+// 404 handler - should be AFTER all defined routes but BEFORE the error handler
+app.use((req, res, next) => {
+    next(new ExpressError(404, "Page Not Found"));
+});
+
+// error handling middleware
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = "Something went wrong!" } = err;
+    // res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs" , {err});
+});
+
+
 
 app.listen( 8080 , () => {
     console.log("Server is listening to  port 8080.");
