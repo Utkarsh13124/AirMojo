@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 // done by seeing syntax from Docs. ,, if needs explanation use Claude
 module.exports.listingSchema = Joi.object({
-    listings: Joi.object({
+    listing : Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
       location: Joi.string().required(),

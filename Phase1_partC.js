@@ -77,7 +77,10 @@
         // schema.js ko apne schema ke hisab se design krna hi , specially image.
             // done 
             
-//? not saving the good data.
+//? not saving the good data. --> resolved.
     // data is saving normally , not saving when passed through validation function 
     // console.log(result) ko acche se samajhna padega , line shi hi tab bhi error dikha rhaa hi , save krne ki bajay
 //! Validation for Schema   
+
+
+// Saving file name as tiltle by mergin them using js methods. 
