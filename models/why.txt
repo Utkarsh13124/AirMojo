@@ -1,1 +1,5 @@
 kyuki humhe baar baar models banae hi  , to hum unhe ek folder me banayege , aur use export kr denge, model matlab  schema.
+
+
+also to define pre or post mongoose middlewares 
+    use case :- in one to many realtionship deletion , wneh deleting parent , children should gget deleted

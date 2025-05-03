@@ -57,7 +57,7 @@ body{
 }
 
 /* Cards */
-.card{
+.listing-card{
     border: none !important; /* agar important nhi bhi likhenge tab bhi chl jayega , kyuki humne style.css ko bootstarap ke baadd include kiya hi*/
     margin-bottom: 2rem;
 }

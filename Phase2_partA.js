@@ -56,6 +56,54 @@
 
 
 //! render review.
+/*
+    Show listing wale page me hi , apne reviews ko dikhayege.
+
+    use populate in show route of listing , as listing ke reviews ko hum populate krna chahte hi. 
+        after populating we have array of referece id populted, so we run a loop and destrcut the values.
+ */
 
 
+//! Styling reviews
+/*
+    using bootstrap simple card without image.
+    
+    */
+   
+   //! Deleting Reviews
+   /*
+   add a delete button with earch review.
+   
+   delete request at /listing/:id/reviews/:reviewId
+   
+   delete review also and delete the reference at listing.review also
+   
+   
+   Deleting review is simple.
+   
+   Deleting reference from address array in list , we can use pull operator 
+   which is like $set , $pull  , $in , 
+   
+   ? $pull operator removes from an existing array all instances of a value or values that match a specified condition
+   
+   listing : {
+    
+   reviews : [ val1 , val2 , .... ]
+   }
+   
+   hum pull operator ko suppose val 2 bta denge to wo jaake array me doondega , aur use remove kr dega
+    await Listing.findByIdAndUpdate(id , {$pull : {reviews : reviewId} });
 
+   */
+  
+  
+//! Handling : Delete Listing By using Middleware for Reviews
+/*
+    Handling the case where we delete , so it will also delete all reviews of it.
+
+    for this the best way is to create post mongoose middleware.
+         in listingSchema in listing.js
+
+*/
+  
+  

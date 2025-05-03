@@ -1,5 +1,6 @@
 const  mongoose = require("mongoose");
 const Schema = mongoose.Schema; // jisse ab humhe baar baar mongoose.schemanhi likhna hoga
+const  Review = require("./review");
 
 const listingSchema = new Schema({
     title : {
@@ -29,6 +30,14 @@ const listingSchema = new Schema({
         ref : "Review",
       },
     ],
+});
+
+// post mongoose middleware
+  // find one and delete ko fond by id and update or any , bhi call krta hi internally
+listingSchema.post("findOneAndDelete" , async(listing) => {
+  if(listing){
+    await Review.deleteMany({_id : {$in : listing.reviews}}); // listing.reviews ka array bnao , jahha bhi _id match kre delete kr do 
+  }
 });
 
 const Listing = mongoose.model("Listing"  , listingSchema);

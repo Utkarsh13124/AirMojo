@@ -140,7 +140,8 @@ app.get("/listings" , wrapAsync(async (req , res) => {
     app.get("/listings/:id" , wrapAsync(async (req ,res) =>{
         let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
         // console.log("Id is" , id);
-        const listing = await Listing.findById(id);
+        // const listing = await Listing.findById(id);
+        const listing = await Listing.findById(id).populate("reviews");// we are using populate as our listing[reviews] is using a reference id of array
         // console.log(listing);
         res.render("listings/show.ejs" , {listing});
     }));
@@ -178,8 +179,8 @@ app.get("/listings" , wrapAsync(async (req , res) => {
 */
     app.delete("/listings/:id" ,wrapAsync( async (req , res) => {
         let {id} = req.params;
-        let deletedListing = await Listing.findByIdAndDelete(id);
-        console.log(deletedListing);
+        let deletedListing = await Listing.findByIdAndDelete(id); // ? humne post mongoose middleware schema lagaya hi iske upar(listing.js)
+        console.log(deletedListing);         
         res.redirect("/listings");
     }));
 
@@ -200,7 +201,17 @@ app.get("/listings" , wrapAsync(async (req , res) => {
         res.redirect(`/listings/${listing._id}`);
     }));
 
+    //! Delete Review Route
+    app.delete("/listings/:id/reviews/:reviewId" , wrapAsync( async(req , res) => {
+        let { id , reviewId } = req.params;
 
+        await Listing.findByIdAndUpdate(id , {$pull : {reviews : reviewId} }); // listing ke ander se hum references delete krenge , 
+            // ? we will use pull operator 
+            // go in listing and search by id , uske review me jaha wo reviewId se match kre remove kr do.
+        await Review.findByIdAndDelete(reviewId);  // deleting review
+
+        res.redirect(`/listings/${id}`);
+    }))
 
 // ! sending page not found response for all other routes that are not defined above.
     // * means sabse match ho jayega. --> ise wild card matching kehte hi. 
