@@ -58,7 +58,7 @@
 //! Scema Validation 
 /*
     Abhi form se post request bhejte hi , to wha pr to humne required set kiya hua hi , to wo to think hi ,
-    leking what if agar hopscotch se object bnake bheje , jisme required wali cheeze filled na ho , to DB to null value save krwa dega agar waha pr humne restrictions nhi lagaye honge.
+    leking what if agar hoppscotch se object bnake bheje , jisme required wali cheeze filled na ho , to DB to null value save krwa dega agar waha pr humne restrictions nhi lagaye honge.
 
     solution 1 hum if condition ka use kre hr ek properties ke liy
         listings.price , listings.description
@@ -72,8 +72,8 @@
 
     */
 
-    // ? hopscotch se post request ja nhi hi , validation for schema watche dtill 11 min
-        // hopscotch is working 
+    // ? hoppscotch se post request ja nhi hi , validation for schema watche dtill 11 min
+        // hoppscotch is working 
         // schema.js ko apne schema ke hisab se design krna hi , specially image.
             // done 
             

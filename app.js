@@ -6,7 +6,8 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate'); 
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require('./schema.js');
+const { listingSchema , reviewSchema } = require('./schema.js'); //  this is for JOI server side validation
+const Review = require("./models/review.js");
 
 const path = require("path");
 app.set("view engine" , "ejs");
@@ -38,8 +39,20 @@ const validateListing = (req , res , next) => {
     let result = listingSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
     console.log(result);
     if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
+        let errMsg = result.error.details.map((el) => el.message).join(",");
         console.log("Data is not saving.");
-        throw new ExpressError(400 , result.error);
+        throw new ExpressError(400 , errMsg);
+    }else{
+        next();
+    }
+};
+const validateReview = (req , res , next) => {
+    let result = reviewSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
+    console.log(result);
+    if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
+        let errMsg = result.error.details.map((el) => el.message).join(",");
+        console.log("Review is not saving.");
+        throw new ExpressError(400 , errMsg); // errMsg is combining multiple error from request.error
     }else{
         next();
     }
@@ -169,6 +182,24 @@ app.get("/listings" , wrapAsync(async (req , res) => {
         console.log(deletedListing);
         res.redirect("/listings");
     }));
+
+
+//! Create Reviews
+    // Post route
+    app.post("/listings/:id/reviews" , validateReview, wrapAsync(async(req , res) => {
+        let listing = await Listing.findById(req.params.id);
+        let newReview = new Review(req.body.review); // as review ko humne name ke jariye , review object bnake bheje tha
+
+        listing.reviews.push(newReview);
+
+        await newReview.save(); // as review bhi ek model hi
+        await listing.save(); 
+
+        console.log("New Review Saved");
+        // res.send("New review saved.");
+        res.redirect(`/listings/${listing._id}`);
+    }));
+
 
 
 // ! sending page not found response for all other routes that are not defined above.
