@@ -1,0 +1,133 @@
+const express = require("express");
+const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const { listingSchema  } = require('../schema.js'); //  this is for JOI server side validation
+const ExpressError = require("../utils/ExpressError.js");
+const Listing = require("../models/listing.js")
+
+
+const validateListing = (req , res , next) => {
+    let result = listingSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
+    console.log(result);
+    if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
+        let errMsg = result.error.details.map((el) => el.message).join(",");
+        console.log("Data is not saving.");
+        throw new ExpressError(400 , errMsg);
+    }else{
+        next();
+    }
+};
+
+//! index route
+/*
+    get request at /listing --> showing all listings
+
+*/
+// index route
+router.get("/" , wrapAsync(async (req , res) => {
+    const allListings = await Listing.find({});
+    res.render("listings/index.ejs" , {allListings});
+}));
+
+
+//! Create : New & Vreate Route 
+/*
+    Get /listings/new -> form -> submit
+    Post /listings
+*/
+    router.get("/new" , (req , res) => {
+        console.log("Create route is being rendering.");
+        res.render("listings/new.ejs");
+    } );
+
+    router.post("/" ,validateListing, wrapAsync( async (req , res , next) => {
+        // try{
+        //     // Method 1 
+        //         // let {title , description , image , price , country , location } = req.body;
+        //     // Method 2 --> form me object bna lena
+        //     let listingObj = req.body.listing;
+        //     //    console.log(listingObj);
+        //     const newListing = new Listing(listingObj);
+        //     await newListing.save();
+        //     res.redirect("/listings");
+        // }catch(err){
+        //     next(err); // if err come call err handler
+        // }
+        // Method 1 
+                // let {title , description , image , price , country , location } = req.body;
+            // Method 2 --> form me object bna lena
+            
+
+            let listingObj = req.body.listing;
+            // if(!listingObj){ // done by Joi
+            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+            // }
+           // solving scema validation problem , whensend by post request through hoopscotch , where our form required is overpassed/ 
+                // * better soluttion is to use joi tool, jo hum if lega ke kr rhe hi , use joi bhut easily kr deta hi 
+            // if(!listingObj.description){ // similar for other.
+            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+            // }
+        // ? Soltuion of validation using Joi
+                // validate listing is passed as middleware 
+            // try{
+                const newListing = new Listing(listingObj);
+                console.log("New : " , newListing);
+                await newListing.save();
+                res.redirect("/listings");
+            // }catch(err){
+            //     console.log("Error is coming form not saving data.");
+            // }
+
+    })
+);
+
+//! show  route
+    router.get("/:id" , wrapAsync(async (req ,res) =>{
+        let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
+        // console.log("Id is" , id);
+        // const listing = await Listing.findById(id);
+        const listing = await Listing.findById(id).populate("reviews");// we are using populate as our listing[reviews] is using a reference id of array
+        // console.log(listing);
+        res.render("listings/show.ejs" , {listing});
+    }));
+
+
+//! Update Route 
+/**
+ * Get /listings/:id/edit -> edit form -> submit
+ * put /listings/:id
+ */
+    router.get("/:id/edit" , wrapAsync(async (req , res) => {
+        let {id} = req.params;
+        const listing = await Listing.findById(id);
+        // console.log(listing);
+        res.render("listings/edit.ejs" , {listing});
+    }));
+
+// Update route
+    router.put("/:id" , wrapAsync(async ( req , res ) => {
+        let { id } = req.params;
+        if(!req.body.listing){
+            throw new ExpressError(400 , "Send Valid Data for Listing!");
+        }
+        await Listing.findByIdAndUpdate(id , {...req.body.listing}); 
+        // we are passing each attribute as user ne koi bhi change kiya ho sakta hi. 
+        // ref to phase1 notes about destructing
+        console.log("put" , req.body.listing);
+        res.redirect(`/listings/${id}`); // redirecting too show route
+    }));
+
+
+//! Delete Route
+/*
+    delete /listings/:id
+*/
+    router.delete("/:id" ,wrapAsync( async (req , res) => {
+        let {id} = req.params;
+        let deletedListing = await Listing.findByIdAndDelete(id); // ? humne post mongoose middleware schema lagaya hi iske upar(listing.js)
+        console.log(deletedListing);         
+        res.redirect("/listings");
+    }));
+
+
+module.exports = router;
