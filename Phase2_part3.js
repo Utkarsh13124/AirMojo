@@ -71,3 +71,58 @@
 */
 
 //! storing & using session information
+/*
+    with help of req.session => we store and use session info
+
+    req.session ke ander cookie object hota hi.
+        we can also create a new variable.
+
+*/
+
+//! connect-flash
+/*
+    msgs ko flash krwane me help krta hi.
+
+    Appear single time
+        triggers :- add , error , update , delete
+
+    flash are special are of the session that appear one time , on refresh go,
+
+    connect-flash --> npm middleware package that is used with session..
+
+    ! typicallly used at redirect.                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+
+
+uSE 
+    const flash = require("connect-flash"); // to pop a msg
+    app.use(flash()); //MIDDLEWARE
+    req.flash("success" , "User registered Successful."); // key - value will be passed, key is used in parsing
+    res.render("page.ejs" , {name : req.session.name , msg : req.flash('success') } ); // FLASH KA MSG EK BAAR HI FLASH KREGA . 
+
+
+    ! res.locals
+        is used to send the variables in res.render
+
+        we can also use them in middleware
+
+        res.locals helps in definig many flash msgs , while middleware is helping us to make light msgs.
+*/
+
+
+//! Implements Sessions in project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
