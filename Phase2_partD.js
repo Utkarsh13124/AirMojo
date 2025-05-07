@@ -115,6 +115,21 @@ if we want we can create these function methods as own
 */
 
 
+// flash cross is not working properly
+
+//! Login user
+/*
+GET /LOGIN 
+
+POST / LOGIN
+
+    we will use a static middleware of passport , 
+        ? passport.authenticate()
+            inside it we need to pass certain options
+
+*/
+
+
 
 
 
