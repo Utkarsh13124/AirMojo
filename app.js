@@ -10,7 +10,9 @@ const ExpressError = require("./utils/ExpressError.js");
 // const Review = require("./models/review.js");
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require("./models/user.js");
 
 const listings = require("./routes/listing.js"); // router
 const reviews = require("./routes/review.js"); // router
@@ -54,6 +56,16 @@ app.get("/" , (req , res) => {
 
 app.use(session(sessionOptions)); // using session middleware
 app.use(flash());
+
+//! using passport
+app.use(passport.initialize()); // hr ek request ke liye passport ko initialize kro.
+app.use(passport.session()); // for login one time in one session.
+passport.use( new LocalStrategy(User.authenticate())); // passport ke ander humne jo bhi nayi local strategy create ki hi , wo sabhi autheticat hone chahiye through LocalStrategy , wo kaise autheticate honne , through User.authenticate() , jo passport local-mongosse ne add kiya hi.
+
+passport.serializeUser(User.serializeUser()); // for seliazing the method , he is using his static method. 
+    // storing the user info in session.
+passport.deserializeUser(User.deserializeUser());
+    // removing stored information
 
 app.use((req , res  , next) => {
     res.locals.success = req.flash("success"); // defining middleware , as the msg is stored in temporary session , when we calls the post, and now it is used in variable , and temporary storage of session is created, while redirecting this line executes , and flash msg works.
