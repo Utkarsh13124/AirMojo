@@ -73,6 +73,7 @@ router.get("/" , wrapAsync(async (req , res) => {
                 const newListing = new Listing(listingObj);
                 console.log("New : " , newListing);
                 await newListing.save();
+                req.flash("success" , "New Listing Created!");
                 res.redirect("/listings");
             // }catch(err){
             //     console.log("Error is coming form not saving data.");
@@ -84,15 +85,23 @@ router.get("/" , wrapAsync(async (req , res) => {
 //! show  route
     router.get("/:id" , wrapAsync(async (req ,res) =>{
         let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
-        // console.log("Id is" , id);
+        console.log("Id is" , id);  
         // const listing = await Listing.findById(id);
         const listing = await Listing.findById(id).populate("reviews");// we are using populate as our listing[reviews] is using a reference id of array
         // console.log(listing);
+        if(!listing){
+            // console.log("We not have listing with this name")
+            req.flash("error" , "Listing you requested, does not exist!"); // putting flash in error key array
+            
+            return res.redirect("/listings");
+            // console.log("We not have listing with this name after redirect")
+
+        }
         res.render("listings/show.ejs" , {listing});
     }));
 
 
-//! Update Route 
+//! Edit Route 
 /**
  * Get /listings/:id/edit -> edit form -> submit
  * put /listings/:id
@@ -101,6 +110,14 @@ router.get("/" , wrapAsync(async (req , res) => {
         let {id} = req.params;
         const listing = await Listing.findById(id);
         // console.log(listing);
+        if(!listing){
+            // console.log("We not have listing with this name")
+            req.flash("error" , "Listing you requested, does not exist!"); // putting flash in error key array
+            
+            return res.redirect("/listings");
+            // console.log("We not have listing with this name after redirect")
+
+        }
         res.render("listings/edit.ejs" , {listing});
     }));
 
@@ -114,6 +131,7 @@ router.get("/" , wrapAsync(async (req , res) => {
         // we are passing each attribute as user ne koi bhi change kiya ho sakta hi. 
         // ref to phase1 notes about destructing
         console.log("put" , req.body.listing);
+        req.flash("success" , "Listing Updated");     
         res.redirect(`/listings/${id}`); // redirecting too show route
     }));
 
@@ -125,7 +143,8 @@ router.get("/" , wrapAsync(async (req , res) => {
     router.delete("/:id" ,wrapAsync( async (req , res) => {
         let {id} = req.params;
         let deletedListing = await Listing.findByIdAndDelete(id); // ? humne post mongoose middleware schema lagaya hi iske upar(listing.js)
-        console.log(deletedListing);         
+        console.log(deletedListing); 
+        req.flash("success" , "Listing Deleted");     
         res.redirect("/listings");
     }));
 

@@ -8,6 +8,9 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require("./utils/ExpressError.js");
 // const { listingSchema , reviewSchema } = require('./schema.js'); //  this is for JOI server side validation
 // const Review = require("./models/review.js");
+const session = require('express-session');
+const flash = require('connect-flash');
+
 
 const listings = require("./routes/listing.js"); // router
 const reviews = require("./routes/review.js"); // router
@@ -33,11 +36,31 @@ main().then(() => {
 
 //! method override
 
+const sessionOptions = {
+    secret : "mysupersecretcode",
+    resave : false,
+    saveUninitialized : true,
+    cookie : {
+        expires : Date.now() + 7 * 24 * 60 * 60 * 1000 , // 7 days to expire from now. 
+        maxAge : 7 * 24 * 60 * 60 * 1000 ,
+        httpOnly : true,   // saves from cross crypting attack
+    }
+}
+
 app.get("/" , (req , res) => {
     console.log("hi ,  I am root.");
     res.send("Home page");
 })
 
+app.use(session(sessionOptions)); // using session middleware
+app.use(flash());
+
+app.use((req , res  , next) => {
+    res.locals.success = req.flash("success"); // defining middleware , as the msg is stored in temporary session , when we calls the post, and now it is used in variable , and temporary storage of session is created, while redirecting this line executes , and flash msg works.
+    res.locals.error = req.flash("error"); // defining middleware , as the msg is stored in temporary session , when we calls the post, and now it is used in variable , and temporary storage of session is created, while redirecting this line executes , and flash msg works.
+    // console.log("error12 : " , res.locals.error); // succcess is a array on console we get about it
+    next();
+})
 
 
 // ! Using Express Router

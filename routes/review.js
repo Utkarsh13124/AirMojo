@@ -32,6 +32,7 @@ const validateReview = (req , res , next) => {
         await listing.save(); 
 
         console.log("New Review Saved");
+        req.flash("success" , "New Review Created!");     
         // res.send("New review saved.");
         res.redirect(`/listings/${listing._id}`);
     }));
@@ -44,7 +45,7 @@ const validateReview = (req , res , next) => {
             // ? we will use pull operator 
             // go in listing and search by id , uske review me jaha wo reviewId se match kre remove kr do.
         await Review.findByIdAndDelete(reviewId);  // deleting review
-
+        req.flash("success" , "Review Deleted");     
         res.redirect(`/listings/${id}`);
     }))
 
