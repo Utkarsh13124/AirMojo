@@ -14,8 +14,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require("./models/user.js");
 
-const listings = require("./routes/listing.js"); // router
-const reviews = require("./routes/review.js"); // router
+const listingRouter = require("./routes/listing.js"); // router
+const reviewRouter = require("./routes/review.js"); // router
+const userRouter = require("./routes/user.js"); // router
 
 const path = require("path");
 app.set("view engine" , "ejs");
@@ -74,10 +75,21 @@ app.use((req , res  , next) => {
     next();
 })
 
+// app.get("/demouser" , async(req , res) => {
+//     let fakeUser = new User({
+//         email : "student@gmail.com",
+//         username : "delta-student",
+//     });
+
+//     let registeredUser =    await User.register(fakeUser , "helloworld"); // second argument inside static function register is password.  , also check for a unique users. 
+//         // passport already has implemented the logic for register.
+//     res.send(registeredUser);
+// })
 
 // ! Using Express Router
-app.use("/listings" , listings);
-app.use("/listings/:id/reviews" , reviews);
+app.use("/listings" , listingRouter);
+app.use("/listings/:id/reviews" , reviewRouter);
+app.use("/" , userRouter);
 
 
 
@@ -103,5 +115,5 @@ app.use((err, req, res, next) => {
 
 
 app.listen( 8080 , () => {
-    console.log("Server is listening to  port 8080.");
+    console.log("Server is listening to  port 8080."); 
 });

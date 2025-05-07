@@ -10,7 +10,7 @@ const userSchema = new Schema({
     }, // mongoose-local-passport will define username and password defaulty
 });
 
-User.plugin(passportLocalMongoose); // used as plugin because it generates , username , passwordfield , salt field automatically , when model is created , 
+userSchema.plugin(passportLocalMongoose); // used as plugin because it generates , username , passwordfield , salt field automatically , when model is created , 
  // also implements few methods like setPassword() , autheticate , changePassword() , generate() &  lots other , you will learn from docs , or when implement.
 
 module.exports = mongoose.model('User' , userSchema);

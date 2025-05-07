@@ -96,8 +96,23 @@ passport.deserializeUser(User.deserializeUser());
 if we want we can create these function methods as own
 */
 
+//! demo user
+/*
+    let registeredUser =  await User.register(fakeUser , "helloworld"); // second argument inside static function register is password.  , also check for a unique users. 
+        passport already has implemented the logic for register.
+    
 
+*/
 
+//! Signup user
+/*
+    Get / signup
+        signup form 
+        on submitting
+    Post / signup   
+        registering new user.
+
+*/
 
 
 
