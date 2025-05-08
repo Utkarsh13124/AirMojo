@@ -3,6 +3,7 @@ const router = express.Router(); // setting mergeParams true to preserve paramet
 const User = require("../models/user.js")
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require('passport');
+const { saveRedirectUrl } = require("../middleware.js");
 
 router.get("/signup" , (req , res) => {
     res.render("users/signup.ejs");
@@ -14,6 +15,11 @@ router.post("/signup" , wrapAsync( async(req , res) => {
         const newUser = new User({email , username});
         let registeredUser = await User.register(newUser , password);
         console.log(registeredUser);
+        req.login(registeredUser , (err) => { // implementing functionality of diretly sigin in , once user sign up, with help of passport methods.
+            if(err){
+                return next(err);
+            }
+        })
         req.flash("success" , "Welcome to AirMojo !!"); // flash to ho jayega , kyuki hune boilerplate me hi daal diya hi.
         res.redirect("/listings"); // jab koi page banayege to wha pr redirect kr denge    
     } catch(err){
@@ -26,9 +32,13 @@ router.get("/login" , (req , res) => {
     res.render("users/login.ejs");
 });
 
-router.post("/login" , passport.authenticate("local" , { failureRedirect : '/login' , failureFlash : true}) ,  wrapAsync( async (req , res) => {
+// flow -> loginUrl -> saveing our currentUrl , passport ko call krna for authetication 
+router.post("/login" , saveRedirectUrl ,  passport.authenticate("local" , { failureRedirect : '/login' , failureFlash : true}) ,  wrapAsync( async (req , res) => {
     req.flash( "success" , "Welcome back to AirMojo !! , you are logged in.");
-    res.redirect("/listings");
+    
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    
+    res.redirect(redirectUrl); // redirectUrl variable is created by us. 
 }));
 
 // logout

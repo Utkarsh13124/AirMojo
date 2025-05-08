@@ -31,7 +31,7 @@
 
     req.logout() method in passport 
         it uses serialize & deserialize, delete the user info from current session 
-
+        it remove req.user method & clean the session
 */
 
 //! Add Styling 
@@ -46,8 +46,40 @@
     hum req.user ko yha access nhi kr sakte hi , lekin hum res.locals ko navbar.ejs me access kr sakte hi.
 */
 
-//!
+//! login afteer signup
+/*
+    implementing functionality of directly login after signup. 
 
+    passport ka /login method. 
+
+
+*/
+
+//! post login page
+/*
+    suppose user humara nayi listings create krna chah rha tha , tab humne use login krwaya , ab wo login krke listings pr chala ja rha hi ,
+    Now adding functionality , ki jaise hi logged in ho , wo dobara usi page pr render ho jaye , jaha se ho aya tha. 
+
+    req ke ander hum konse patth se aaye hi , uska information , konse pr hi , sessiion related information bhi stored hi , request me 
+
+    req.path --> is relative url , 
+    req.originalUrl --> absolute path , jise hume access kre ki koshish kr rhe the. 
+
+    after doing login we want to redirect this original URL. 
+
+    storing them , 
+         for Now , we are storing it in req.session object. 
+            and we only want to store if user is not logged in , so we will do this work in middleware isloggedin
+        here is one issue from passport side , jaise hi hum authenticate ho jate hi logged in ke liye , waise hi wo humare session ki info ko reset kr deta hi.
+
+        Solution is to stor them in locals , as locals are acceble to everywhere , & passport not have access to locals. 
+
+            apne redirect ko save krwane ke liye hum ek aur middleware create kr lete hi . 
+
+    if login from home , isLoggedIn not triggered , so no url , saved , we are nowhere redirected , resulting in error.
+    
+
+*/
 
 
 
