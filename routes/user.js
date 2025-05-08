@@ -31,4 +31,15 @@ router.post("/login" , passport.authenticate("local" , { failureRedirect : '/log
     res.redirect("/listings");
 }));
 
+// logout
+router.get("/logout" , (req , res , next) => {
+    req.logout( (err) => { // agar logout krte hue koi error ata hi. / then we will pass into next for error error middleware to handle.
+        if(err){
+            return next(err);
+        }
+        req.flash("success" , "You are logged out!" );
+        res.redirect("/listings");
+    })
+})
+
 module.exports = router;

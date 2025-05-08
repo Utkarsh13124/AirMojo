@@ -68,10 +68,11 @@ passport.serializeUser(User.serializeUser()); // for seliazing the method , he i
 passport.deserializeUser(User.deserializeUser());
     // removing stored information
 
-app.use((req , res  , next) => {
+app.use((req , res  , next) => { // we can access res.locals in navbar.ejs also
     res.locals.success = req.flash("success"); // defining middleware , as the msg is stored in temporary session , when we calls the post, and now it is used in variable , and temporary storage of session is created, while redirecting this line executes , and flash msg works.
     res.locals.error = req.flash("error"); // defining middleware , as the msg is stored in temporary session , when we calls the post, and now it is used in variable , and temporary storage of session is created, while redirecting this line executes , and flash msg works.
     // console.log("error12 : " , res.locals.error); // succcess is a array on console we get about it
+    res.locals.currUser = req.user; // storing user session info
     next();
 })
 
