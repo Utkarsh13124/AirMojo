@@ -77,15 +77,45 @@
             apne redirect ko save krwane ke liye hum ek aur middleware create kr lete hi . 
 
     if login from home , isLoggedIn not triggered , so no url , saved , we are nowhere redirected , resulting in error.
-    
+
 
 */
 
 
+//! Listing owner --> for authorization
+/*
+    dealing with permission.
+    for this we need to change the schema
 
 
+    Situation : aage bhi kabhi ho sakti hi , k hum kisi ek cheez ko baad me add kre database me, hum hr ek data me jaake changes krein , isse better tarika ye hi , jaha se data initialize ho rha hi 
+        wha pr map method use kr le javascript , jo hr ek data object ke pass jake usme required changes krwa denge
 
 
+    Changes in post route of listing
+        while adding a new listing , we need to add the current user to username properties of listing
+
+    we are adding the owner , this data will help in authorization. 
+*/
+
+
+//! Starting with Authorization 
+/*
+    Hiding edit & delete btn for those user , who are not owner of the post.
+
+    we need two information :- current user , & listing owner 
+        curruser ki id humne res.locals me store ki hi , listing ki owner ki id listings me hi hi.
+
+    lekin abhi humare routes safe nhi hi , agar koi hoppsctch se request bhej diya , to. 
+*/
+
+
+//! Authorization for /listing
+/*
+    Authorization in edit route:- only authorized user will able to see the edit and deleta btn 
+
+
+*/
 
 
 

@@ -14,13 +14,14 @@
         <div class="card col-6 offset-3 show-card listing-card">
             <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing">
             <div class="card-body">
-                <p class="card-text">
+                
                     <!-- <b><%= listing.title %></b> <br> -->
-                    <%= listing.description %> <br>
-                    &#x20B9;<%= listing.price.toLocaleString("en-IN") %> <br>
-                    <%= listing.location %> <br>
-                    <%= listing.country %>
-                </p>
+                    <p class="card-text">Owned By <i><%= listing.owner.username %></i></p>
+                    <p class="card-text"><%= listing.description %> </p>
+                    <p class="card-text">&#x20B9;<%= listing.price.toLocaleString("en-IN") %> </p>
+                    <p class="card-text"><%= listing.location %> </p>
+                    <p class="card-text"><%= listing.country %></p>
+  
             </div>
         </div>
         
@@ -34,12 +35,12 @@
             </ul> -->
             <br>
         
-        <div class="btns">   
-            <a href="/listings/<%= listing._id%>/edit"  class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>       
-            <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                <button class="btn btn-dark offset-5">Delete</button>
-            </form>
-        </div>
+                <div class="btns">   
+                    <a href="/listings/<%= listing._id%>/edit"  class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>       
+                    <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-dark offset-5">Delete</button>
+                    </form>
+                </div>
 
         <div class="col-8 offset-3 mb-3">
             <hr>
@@ -81,3 +82,5 @@
 
 <!-- </body> -->
 <!-- </html> -->
+             <!-- //<% if(currUser && currUser._id.equals(listing.owner._id)){ %>       btns only show to authorized Person . currUser is coming from middleware, so sometime may happen middleware not run, currUser is not stored, so first condition is for this -->
+            <!-- //<% } %> -->

@@ -1,23 +1,10 @@
 const express = require("express");
 const router = express.Router({ mergeParams : true }); // setting mergeParams true to preserve parameters from parents route
 const wrapAsync = require("../utils/wrapAsync.js");
-const { reviewSchema } = require('../schema.js'); //  this is for JOI server side validation
 const ExpressError = require("../utils/ExpressError.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js")
-
-
-const validateReview = (req , res , next) => {
-    let result = reviewSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
-    console.log(result);
-    if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
-        let errMsg = result.error.details.map((el) => el.message).join(",");
-        console.log("Review is not saving.");
-        throw new ExpressError(400 , errMsg); // errMsg is combining multiple error from request.error
-    }else{
-        next();
-    }
-};
+const {validateReview} = require("../middleware.js");
 
 //! Create Reviews
     // Post route

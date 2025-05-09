@@ -1,22 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const { listingSchema  } = require('../schema.js'); //  this is for JOI server side validation
 const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js")
-const {isLoggedIn} = require('../middleware.js');
+const {isLoggedIn, isOwner, validateListing} = require('../middleware.js');
 
-const validateListing = (req , res , next) => {
-    let result = listingSchema.validate(req.body); // ! is req.body is satisfying the condition of defined schema
-    console.log(result);
-    if(result.error){ // consoling result helps us to see ki kon kon se key-value hi iske ander
-        let errMsg = result.error.details.map((el) => el.message).join(",");
-        console.log("Data is not saving.");
-        throw new ExpressError(400 , errMsg);
-    }else{
-        next();
-    }
-};
+
 
 //! index route
 /*
@@ -44,36 +33,38 @@ router.get("/" , wrapAsync(async (req , res) => {
 
     router.post("/" , isLoggedIn, validateListing, wrapAsync( async (req , res , next) => {
         // try{
-        //     // Method 1 
-        //         // let {title , description , image , price , country , location } = req.body;
-        //     // Method 2 --> form me object bna lena
-        //     let listingObj = req.body.listing;
-        //     //    console.log(listingObj);
-        //     const newListing = new Listing(listingObj);
-        //     await newListing.save();
-        //     res.redirect("/listings");
-        // }catch(err){
-        //     next(err); // if err come call err handler
-        // }
-        // Method 1 
-                // let {title , description , image , price , country , location } = req.body;
-            // Method 2 --> form me object bna lena
+                //     // Method 1 
+                //         // let {title , description , image , price , country , location } = req.body;
+                //     // Method 2 --> form me object bna lena
+                //     let listingObj = req.body.listing;
+                //     //    console.log(listingObj);
+                //     const newListing = new Listing(listingObj);
+                //     await newListing.save();
+                //     res.redirect("/listings");
+                // }catch(err){
+                //     next(err); // if err come call err handler
+                // }
+                // Method 1 
+                        // let {title , description , image , price , country , location } = req.body;
+                    // Method 2 --> form me object bna lena
             
 
             let listingObj = req.body.listing;
             // if(!listingObj){ // done by Joi
-            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
-            // }
-           // solving scema validation problem , whensend by post request through hoopscotch , where our form required is overpassed/ 
-                // * better soluttion is to use joi tool, jo hum if lega ke kr rhe hi , use joi bhut easily kr deta hi 
-            // if(!listingObj.description){ // similar for other.
-            //     throw new ExpressError(400 , "Send Valid Data for Listing!");
-            // }
+                //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+                // }
+            // solving scema validation problem , whensend by post request through hoopscotch , where our form required is overpassed/ 
+                    // * better soluttion is to use joi tool, jo hum if lega ke kr rhe hi , use joi bhut easily kr deta hi 
+                // if(!listingObj.description){ // similar for other.
+                //     throw new ExpressError(400 , "Send Valid Data for Listing!");
+                // }
         // ? Soltuion of validation using Joi
                 // validate listing is passed as middleware 
             // try{
                 const newListing = new Listing(listingObj);
-                console.log("New : " , newListing);
+                // console.log("New : " , newListing);
+                // console.log(req.user);
+                newListing.owner = req.user._id; // storing id of current user in newListing
                 await newListing.save();
                 req.flash("success" , "New Listing Created!");
                 res.redirect("/listings");
@@ -89,7 +80,7 @@ router.get("/" , wrapAsync(async (req , res) => {
         let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
         console.log("Id is" , id);  
         // const listing = await Listing.findById(id);
-        const listing = await Listing.findById(id).populate("reviews");// we are using populate as our listing[reviews] is using a reference id of array
+        const listing = await Listing.findById(id).populate("reviews").populate("owner");// we are using populate as our listing[reviews] is using a reference id of array
         // console.log(listing);
         if(!listing){
             // console.log("We not have listing with this name")
@@ -99,6 +90,7 @@ router.get("/" , wrapAsync(async (req , res) => {
             // console.log("We not have listing with this name after redirect")
 
         }
+        console.log(listing);
         res.render("listings/show.ejs" , {listing});
     }));
 
@@ -108,7 +100,7 @@ router.get("/" , wrapAsync(async (req , res) => {
  * Get /listings/:id/edit -> edit form -> submit
  * put /listings/:id
  */
-    router.get("/:id/edit" ,isLoggedIn,  wrapAsync(async (req , res) => {
+    router.get("/:id/edit" ,isLoggedIn, isOwner, wrapAsync(async (req , res) => {
         let {id} = req.params;
         const listing = await Listing.findById(id);
         // console.log(listing);
@@ -124,11 +116,12 @@ router.get("/" , wrapAsync(async (req , res) => {
     }));
 
 // Update route
-    router.put("/:id" , isLoggedIn,  wrapAsync(async ( req , res ) => {
+    router.put("/:id" , isLoggedIn, isOwner, wrapAsync(async ( req , res ) => {
         let { id } = req.params;
         if(!req.body.listing){
             throw new ExpressError(400 , "Send Valid Data for Listing!");
         }
+
         await Listing.findByIdAndUpdate(id , {...req.body.listing}); 
         // we are passing each attribute as user ne koi bhi change kiya ho sakta hi. 
         // ref to phase1 notes about destructing
@@ -142,7 +135,7 @@ router.get("/" , wrapAsync(async (req , res) => {
 /*
     delete /listings/:id
 */
-    router.delete("/:id" , isLoggedIn, wrapAsync( async (req , res) => {
+    router.delete("/:id" , isLoggedIn, isOwner, wrapAsync( async (req , res) => {
         let {id} = req.params;
         let deletedListing = await Listing.findByIdAndDelete(id); // ? humne post mongoose middleware schema lagaya hi iske upar(listing.js)
         console.log(deletedListing); 
