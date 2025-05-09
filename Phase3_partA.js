@@ -13,6 +13,13 @@
     Model :- Db , schema
 
     For controller :- hum saare file aur callbacks ko ek separate file me store krenge. 
+
+
+
+    Making Controllers folder in Air Mojo
+
+
+    controllers MVC ko use krne se humari files ka structure bhut badiya ho jata hi .
 */
 
 
