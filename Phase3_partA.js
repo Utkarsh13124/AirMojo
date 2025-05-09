@@ -24,7 +24,11 @@
 
 
 //! Router.route
+/*
+    router.route ka use krte hi , to hum same path ke upar multiple request like put , patch , delete, ...
 
+
+*/
 
 
 
