@@ -114,9 +114,17 @@
 /*
     Authorization in edit route:- only authorized user will able to see the edit and deleta btn 
 
+    added middleware for authorization.
 
 */
 
+//! Setting Authorization
+/*
+    - For every review should have author.
+        and is author ke pass hi access hoga reviews ko delete krne ka.
 
+    - only logged in user can only comment the reviews.
+
+*/
 
 

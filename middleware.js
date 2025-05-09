@@ -1,6 +1,7 @@
 const Listing = require("./models/listing.js");
 const { listingSchema , reviewSchema } = require('./schema.js'); //  this is for JOI server side validation
 const ExpressError = require("./utils/ExpressError.js");
+const Review = require("./models/review.js");
 
 
 // jaise hi lage  file badi ho rhi hi , waise hi hum middleware folder bna ke review ke middleware ko ek me , listing ke middleware ko ek me.
@@ -24,14 +25,25 @@ module.exports.saveRedirectUrl = (req , res , next) =>{
 
 module.exports.isOwner = async(req, res ,next) => {
     let { id } = req.params;
-        if(!req.body.listing){
-            throw new ExpressError(400 , "Send Valid Data for Listing!");
-        }
+        // console.log("In IsOwner45");
 
         //! Adding authorization
             let listing = await Listing.findById(id);
             if(!listing.owner.equals(res.locals.currUser._id)){
                 req.flash("error" , "You are not the owner.");
+                return res.redirect(`/listings/${id}`);
+            }
+        next();
+}
+
+module.exports.isReviewAuthor = async(req, res ,next) => {
+    let { reviewId , id } = req.params;
+        // console.log("In IsOwner45");
+
+        //! Adding authorization
+            let review = await Review.findById(reviewId);
+            if(!review.author.equals(res.locals.currUser._id)){
+                req.flash("error" , "You did not create the review.");
                 return res.redirect(`/listings/${id}`);
             }
         next();

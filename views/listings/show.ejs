@@ -25,25 +25,18 @@
             </div>
         </div>
         
-            <!-- <ul>
-                <li><%= listing.title %></li>
-                <li><%= listing.description %></li>
-                <li>&#x20B9;<%= listing.price.toLocaleString("en-IN") %></li>
-                <li><%= listing.location %></li>
-                <li><%= listing.country %></li>
-                / Image iss to be added later 
-            </ul> -->
             <br>
-        
+            <% if(currUser && currUser._id.equals(listing.owner._id)){ %> <!-- btns only show to authorized Person . currUser is coming from middleware, so sometime may happen middleware not run, currUser is not stored, so first condition is for this -->
                 <div class="btns">   
                     <a href="/listings/<%= listing._id%>/edit"  class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>       
                     <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
                         <button class="btn btn-dark offset-5">Delete</button>
                     </form>
                 </div>
-
+            <% } %>
         <div class="col-8 offset-3 mb-3">
-            <hr>
+           <% if(currUser){ %>
+                <hr>
             <h4>Leave a Review</h4>
             <form action="/listings/<%= listing._id%>/reviews" method="post" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
@@ -59,6 +52,7 @@
                 </div>
                 <button class="btn btn-outline-dark">Submit</button>
             </form>
+            <% } %>
         </div>
 
         <hr>
@@ -68,7 +62,7 @@
             <% for(review of listing.reviews){ %>
                 <div class="card col-5 ms-3  mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">John Doe</h5>
+                        <h5 class="card-title">@<%= review.author.username %></h5>
                         <p class="card-text"><%= review.comment %></p>
                         <p class="card-text"><%= review.rating %> Stars</p>
                     </div>
@@ -82,5 +76,4 @@
 
 <!-- </body> -->
 <!-- </html> -->
-             <!-- //<% if(currUser && currUser._id.equals(listing.owner._id)){ %>       btns only show to authorized Person . currUser is coming from middleware, so sometime may happen middleware not run, currUser is not stored, so first condition is for this -->
-            <!-- //<% } %> -->
+            

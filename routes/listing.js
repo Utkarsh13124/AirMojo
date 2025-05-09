@@ -80,7 +80,9 @@ router.get("/" , wrapAsync(async (req , res) => {
         let {id} = req.params; // app.use(express.urlextende(extended : true)) krna hoga to parse.
         console.log("Id is" , id);  
         // const listing = await Listing.findById(id);
-        const listing = await Listing.findById(id).populate("reviews").populate("owner");// we are using populate as our listing[reviews] is using a reference id of array
+        const listing = await Listing.findById(id).populate({ path : "reviews" , populate : { path : "author", } }).populate("owner");// we are using populate as our listing[reviews] is using a reference id of array
+            // we also need to populate author name inside reviews, so we will populate object in place of just reviews
+        
         // console.log(listing);
         if(!listing){
             // console.log("We not have listing with this name")
