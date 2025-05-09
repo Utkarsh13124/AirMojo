@@ -1,55 +1,22 @@
 const express = require("express");
 const router = express.Router(); // setting mergeParams true to preserve parameters from parents route
-const User = require("../models/user.js")
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require('passport');
 const { saveRedirectUrl } = require("../middleware.js");
 
-router.get("/signup" , (req , res) => {
-    res.render("users/signup.ejs");
-});
+const userController = require("../controllers/user.js");
+const { renderFile } = require("ejs");
 
-router.post("/signup" , wrapAsync( async(req , res) => {
-    try{
-        let {username , email , password} = req.body;
-        const newUser = new User({email , username});
-        let registeredUser = await User.register(newUser , password);
-        console.log(registeredUser);
-        req.login(registeredUser , (err) => { // implementing functionality of diretly sigin in , once user sign up, with help of passport methods.
-            if(err){
-                return next(err);
-            }
-        })
-        req.flash("success" , "Welcome to AirMojo !!"); // flash to ho jayega , kyuki hune boilerplate me hi daal diya hi.
-        res.redirect("/listings"); // jab koi page banayege to wha pr redirect kr denge    
-    } catch(err){
-        req.flash("error" , err.message);
-        res.redirect("/signup");
-    }
-}));
+router.get("/signup" , userController.renderSignUpForm);
 
-router.get("/login" , (req , res) => {
-    res.render("users/login.ejs");
-});
+router.post("/signup" , wrapAsync( userController.signup ));
+
+router.get("/login" , userController.renderLoginForm);
 
 // flow -> loginUrl -> saveing our currentUrl , passport ko call krna for authetication 
-router.post("/login" , saveRedirectUrl ,  passport.authenticate("local" , { failureRedirect : '/login' , failureFlash : true}) ,  wrapAsync( async (req , res) => {
-    req.flash( "success" , "Welcome back to AirMojo !! , you are logged in.");
-    
-    let redirectUrl = res.locals.redirectUrl || "/listings";
-    
-    res.redirect(redirectUrl); // redirectUrl variable is created by us. 
-}));
+router.post("/login" , saveRedirectUrl ,  passport.authenticate("local" , { failureRedirect : '/login' , failureFlash : true}) ,  wrapAsync( userController.login));
 
 // logout
-router.get("/logout" , (req , res , next) => {
-    req.logout( (err) => { // agar logout krte hue koi error ata hi. / then we will pass into next for error error middleware to handle.
-        if(err){
-            return next(err);
-        }
-        req.flash("success" , "You are logged out!" );
-        res.redirect("/listings");
-    })
-})
+router.get("/logout" , userController.logout)
 
 module.exports = router;
