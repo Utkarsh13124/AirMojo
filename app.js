@@ -48,7 +48,7 @@ const sessionOptions = {
         maxAge : 7 * 24 * 60 * 60 * 1000 ,
         httpOnly : true,   // saves from cross crypting attack
     }
-}
+} 
 
 app.get("/" , (req , res) => {
     console.log("hi ,  I am root.");
