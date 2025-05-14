@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV != "production"){   // .env file hum sirf developmental phase ke ander hi use krte hi.
+    require('dotenv').config()
+}
+console.log(process.env.SECRET)
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');

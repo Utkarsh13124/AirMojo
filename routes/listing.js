@@ -5,10 +5,16 @@ const {isLoggedIn, isOwner, validateListing} = require('../middleware.js');
 
 const listingController = require("../controllers/listings.js"); // mvc design
 
+const multer  = require('multer') // to parsing multipart for  data
+const upload = multer({ dest: 'uploads/' }) // multer ffiles ko nikalega aur unhe automatically uuploads naam ke folder ke ander rakh dega.
+
 // compact route
 router.route("/")
     .get(wrapAsync(listingController.index))
-    .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing));
+    // .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing));
+    .post(upload.single('listing[image][url]') , (req , res) => { // uload single is multer middleware for parsing the multipart file data
+        res.send(req.file);
+    });
 
 // * Putting new route above from below , asif it was below , firstly /:id get triggered for new , and we get error.
 router.get("/new" , isLoggedIn, listingController.renderNewForm );

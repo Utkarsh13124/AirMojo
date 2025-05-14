@@ -31,13 +31,54 @@
 //! Re-style rating :- Implemnting stars
 /*
     we are going to do it with starability library.
-    
+    just follow the docs, 
+    and check the name , that is what we want to sent in backend
 */
 
-//! image
+//! image upload , instead of link
+/*
+    we want to give property of image upload.
+
+    issue in current form , because of which currently we are not able to upload the image.:-
+        current form backended me files nhi send kr sake hi , like pdf , photo , png , video, 
+        second issue if file aa bhi  gyi to store kaha krwayei, as MongoDb me BSON format me limited size me data store hota hi
 
 
+        First step :- to make our form capable of sending files to backended
+        Second Stemp : storing in cloud server( AWS , Azure , but they are for production level)   & currently we will use free version. They are third party service , we could also use google drive.
+            paid services used :-  when code is writing for company , or we want to scale  
+        Third Step :- save the link in mongoDB
 
+*/
+
+//! Manipulating form :- 
+/*
+    currenlty we have set urlEncoded true ;- so we are only able to send urlEncoded data.
+        by default backend ko samajh nhi ata ki humari data kis form me bheja gya hi , so we use parser.
+
+    if we want to send file, then we have to use enctype="multipart/form-data"
+
+    FOR PARSING multipart data we are going to use //! multer library.
+
+        after getting multer read the docs , require it , and configure it
+        we write a middleware function for it, upload.singe('') ke ander wo field likhege jaha se image file fetch krni hi
+        multer ke aate hi ab humare pass req.file naam ki ek aur key aa jayegi , jo file ka data store karegi
+
+*/
+
+//! Cloud Setup
+/*
+    Used ThirdParty Service -> Cloudinary
+
+    .env file to save credentials
+
+        its like huuhe instagram pr daily basis pr ek post create krna hhi aur humne ek code likh diya to , code ko credentials bhi dene padege
+        it works in key Value Pair.
+        Prefer key in Uppercase
+
+    dotenv package , as hum .env file ke ander create hue variable ko khi bhi use kr sake , but wo aise use nhi honge , uske liye humhe ek package ko download krna padega
+
+*/
 
 
 
