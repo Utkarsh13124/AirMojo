@@ -63,10 +63,15 @@ module.exports.createListing =  async (req , res , next) => {
         // ? Soltuion of validation using Joi
                 // validate listing is passed as middleware 
             // try{
+                
+                let url = req.file.path; // req.file is coming after multer
+                let filename = req.file.filename;
+
                 const newListing = new Listing(req.body.listing);
                 // console.log("New : " , newListing);
                 // console.log(req.user);
                 newListing.owner = req.user._id; // storing id of current user in newListing
+                newListing.image = {url , filename};
                 await newListing.save();
                 req.flash("success" , "New Listing Created!");
                 res.redirect("/listings");

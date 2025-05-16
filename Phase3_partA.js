@@ -81,8 +81,21 @@
 */
 
 
+//! Store Files
+/*
+    we will use two library 
+    cloudinary , multer-storage-cloudinary
 
+    for configuring cloud we need to configure it , we will make a separate file ffor this.
 
+    require krne ke baad humhe configure krna hota hi , uska code npm ki website pr nhi tha , lekin clodinary ki website pr tha.
+    configure krna matlab jodna
 
+    export krenge , multer ko storage pr set krenge
+
+    ab humri file clodinary pr upload hoo rhi hi. ab humhe clodinary ka link provide krna hoga.
+*/
+
+//! step 3 Save the link in the mongo DB database
 
 

@@ -1,0 +1,1 @@
+to upload things in loal , when we are uploading image , so basically we are storing , lateer we stored on some 3rd party platform like clodinary.
