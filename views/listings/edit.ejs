@@ -10,7 +10,7 @@
     <div class="row mt-3">
         <div class="col-8 offset-2">
             <h3>Edit your List : </h3>
-            <form action="/listings/<%=listing._id%>?_method=PUT" method="post" novalidate class="needs-validation">
+            <form action="/listings/<%=listing._id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
                 <!-- Earlier for taking input we are using placeholder to show to enter something, but here we need to show the already present input , so we use value attribut
                 The value attribute sets the default content of an <input> field
                 Useful in Edit Forms to show existing data. -->
@@ -29,11 +29,11 @@
                       </div>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Image Link</label>
-                    <input type="text" required name="listing[image][url]" value="<%= listing.image.url %>" class="form-control" >
-                    <div class="invalid-feedback">
+                    <label for="image" class="form-label">Upload new Image </label>
+                    <input type="file"  name="listing[image][url]" value="<%= listing.image.url %>" class="form-control" >
+                    <!-- <div class="invalid-feedback">
                         Please enter a valid link for Image
-                    </div>
+                    </div> -->
                 </div> 
                 <div class="mb-3">
                     <label for="filename" class="form-label">Image Filename</label>

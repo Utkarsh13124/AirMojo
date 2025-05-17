@@ -97,5 +97,32 @@
 */
 
 //! step 3 Save the link in the mongo DB database
+/*
+    fetch from req.file and modify liisting add the current new propertiwes.
+    
+    
+
+    ! Also we are capable of adding multipl epictures. 
+
+*/
+
+
+
+
+//! # Part - 3 , Phase - 2
+/*
+    Edit Listing Image
+        Now we need to change our edit form  
+            As abhi tk wha pr url edit krne ko ata hi , but we want to add image uploadd feature.
+            
+        usi tarike se hi change krenge ,  
+            sabse pehle hum form ko capable banayege ki wo form ko backened me bhej paaye, 
+            backended me routes ko capable banayege ki , wo image ko le aur clodinary me save kraye ,
+            then changes in Db .
+
+*/
+
+
+
 
 

@@ -103,10 +103,19 @@ module.exports.updateListing = async ( req , res ) => {
         throw new ExpressError(400 , "Send Valid Data for Listing!");
     }
 
-    await Listing.findByIdAndUpdate(id , {...req.body.listing}); 
+    let listing = await Listing.findByIdAndUpdate(id , {...req.body.listing});  // updating body items , not file jo multer se aa rhi hi.
     // we are passing each attribute as user ne koi bhi change kiya ho sakta hi. 
     // ref to phase1 notes about destructing
-    console.log("put" , req.body.listing);
+    // console.log("put" , req.body.listing);
+
+   //* after updating bodily item , now we are updating file item. 
+    if( typeof req.file !== undefined ){
+        let url = req.file.path; // req.file is coming after multer
+        let filename = req.file.filename;
+        listing.image = { url , filename };
+        await listing.save();
+    }
+
     req.flash("success" , "Listing Updated");     
     res.redirect(`/listings/${id}`); // redirecting too show route
 };
