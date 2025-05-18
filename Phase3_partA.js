@@ -120,9 +120,16 @@
             backended me routes ko capable banayege ki , wo image ko le aur clodinary me save kraye ,
             then changes in Db .
 
+
+        humhe do bar update ka logic likhna padega ek to text data ka , jo req.body me hi , secondly multipart data ka , jo req.file me hi.
+
 */
 
 
+//! image preview , While updating we will able to see old image preview in lower quality 
+/*
+    
 
+*/
 
 
