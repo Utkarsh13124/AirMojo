@@ -128,7 +128,8 @@
 
 //! image preview , While updating we will able to see old image preview in lower quality 
 /*
-    
+    we could do manually , but here we do with cloudinary
+    we will use clodinary api for this.
 
 */
 

@@ -28,6 +28,12 @@
                         Please Enter a short description
                       </div>
                 </div>
+
+                <div class="mb-3">
+                    Original Listing image <br>
+                    <img src="<%= originalImageUrl %>" alt="image for Preview">
+                </div>
+
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload new Image </label>
                     <input type="file"  name="listing[image][url]" value="<%= listing.image.url %>" class="form-control" >

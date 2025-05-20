@@ -93,7 +93,12 @@ module.exports.createListing =  async (req , res , next) => {
             // console.log("We not have listing with this name after redirect")
 
         }
-        res.render("listings/edit.ejs" , {listing});
+
+        // adding preview feature , by changing url with cloudinary api
+        let originalImageUrl = listing.image.url;
+        originalImageUrl = originalImageUrl.replace("/upload" , "/upload/w_250"); // changing and storing in temporary place .
+
+        res.render("listings/edit.ejs" , {listing , originalImageUrl});
     }
 
 
