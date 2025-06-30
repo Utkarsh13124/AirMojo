@@ -14,6 +14,7 @@ const ExpressError = require("./utils/ExpressError.js");
 // const { listingSchema , reviewSchema } = require('./schema.js'); //  this is for JOI server side validation
 // const Review = require("./models/review.js");
 const session = require('express-session');
+const MongoStore = require('connect-mongo'); // for storing mongo session on online cloud, as express-session only do in local.
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -31,10 +32,11 @@ app.use(methodOverride("_method"));
 app.engine("ejs" , ejsMate); // to use ejs for creating boilerplate
 app.use(express.static(path.join(__dirname, "/public"))); // to use static files.
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/airmojo";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/airmojo";
+const dbUrl = process.env.ATLASDB_URL;
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 main().then(() => {
@@ -43,9 +45,22 @@ main().then(() => {
 .catch( (err) => console.log(err));
 
 //! method override
+const store = MongoStore.create({
+        mongoUrl : dbUrl,
+        crypto : {
+            secret : process.env.SECRET
+        },
+        touch : 24 * 3600,    // default on every refresh session update.
+        // ttl is default set to 14 days. 
+});
+
+store.on("error" , (err) => {
+    console.log("Error in Mongo session " , err);
+} );
 
 const sessionOptions = {
-    secret : "mysupersecretcode",
+    store,
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -55,10 +70,11 @@ const sessionOptions = {
     }
 } 
 
-app.get("/" , (req , res) => {
-    console.log("hi ,  I am root.");
-    res.send("Home page");
-})
+// app.get("/" , (req , res) => {
+//     console.log("hi ,  I am root.");
+//     res.send("Home page");
+// })
+
 
 app.use(session(sessionOptions)); // using session middleware
 app.use(flash());
