@@ -1,0 +1,11 @@
+Docs/
+Progress Track/
+node_modules/
+**/AirMojo Notes/
+
+.env
+homework.txt
+tips&Ethics.txt
+DevMindset.txt
+Challenge.txt
+Contexts.txt
