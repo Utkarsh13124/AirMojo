@@ -33,8 +33,8 @@ app.engine("ejs" , ejsMate); // to use ejs for creating boilerplate
 app.use(express.static(path.join(__dirname, "/public"))); // to use static files.
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/airmojo";
-const dbUrl = process.env.ATLASDB_URL;
-// const dbUrl = "mongodb://127.0.0.1:27017/airmojo";
+// const dbUrl = process.env.ATLASDB_URL;
+const dbUrl = "mongodb://127.0.0.1:27017/airmojo";
 
 async function main() {
     await mongoose.connect(dbUrl);
